@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Roparzi VPN</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101114'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23b6f25c'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#node-list">Skip to nodes</a>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <span class="lamp" id="lamp" data-state="off" aria-hidden="true"></span>
+        <div>
+          <p class="eyebrow">Local client</p>
+          <h1>Roparzi VPN</h1>
+        </div>
+      </div>
+      <div class="top-side">
+        <p class="meta" id="sub-meta">Loading nodes…</p>
+        <button class="btn btn-quiet" id="refresh" type="button">Refresh nodes</button>
+      </div>
+    </header>
+
+    <p class="banner" id="banner" role="alert" hidden></p>
+
+    <div class="layout">
+      <section class="panel connect" aria-labelledby="power-title">
+        <p class="kicker" id="power-kicker">Off</p>
+        <h2 id="power-title">Not connected</h2>
+        <p class="selected-name" id="selected-name">Pick a node</p>
+        <p class="selected-meta" id="selected-meta"></p>
+
+        <button class="power" id="power" type="button" aria-pressed="false">
+          <span id="power-label">Connect</span>
+        </button>
+
+        <button class="btn btn-block" id="browser" type="button">Open Chrome through this node</button>
+
+        <dl class="facts">
+          <div>
+            <dt>Local proxy</dt>
+            <dd>
+              <code id="endpoint">127.0.0.1:7890</code>
+              <button class="text-btn" id="copy" type="button">Copy</button>
+            </dd>
+          </div>
+          <div>
+            <dt>Core</dt>
+            <dd id="core-line">Starting…</dd>
+          </div>
+        </dl>
+
+        <div class="account" id="account" hidden></div>
+
+        <p class="fine">
+          Use the Chrome window opened from here. A normal browser goes direct, and Google does not answer that way on this network.
+        </p>
+      </section>
+
+      <section class="panel nodes" aria-labelledby="nodes-title">
+        <div class="nodes-head">
+          <h2 id="nodes-title">Nodes</h2>
+          <button class="btn btn-quiet" id="test-listed" type="button">Test listed</button>
+        </div>
+        <div class="filters">
+          <label class="search">
+            <span class="sr">Search nodes</span>
+            <input id="search" type="search" placeholder="Search name or region" autocomplete="off" />
+          </label>
+          <label>
+            <span class="sr">Region</span>
+            <select id="region"></select>
+          </label>
+          <label>
+            <span class="sr">Protocol</span>
+            <select id="protocol">
+              <option value="all">All protocols</option>
+              <option value="hysteria2">Hysteria2</option>
+              <option value="vless">VLESS</option>
+              <option value="anytls">AnyTLS</option>
+            </select>
+          </label>
+          <label>
+            <span class="sr">Sort</span>
+            <select id="sort">
+              <option value="subscription">Subscription order</option>
+              <option value="latency">Lowest latency</option>
+            </select>
+          </label>
+        </div>
+        <p class="count" id="count" aria-live="polite"></p>
+        <div id="node-list" class="node-list" role="listbox" aria-label="VPN nodes" tabindex="0"></div>
+      </section>
+    </div>
+
+    <details class="advanced">
+      <summary>Subscription</summary>
+      <label class="stack" for="sub-url">Subscription URL</label>
+      <input id="sub-url" type="url" spellcheck="false" autocomplete="off" />
+      <button class="btn" id="save-sub" type="button">Save and reload</button>
+    </details>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
