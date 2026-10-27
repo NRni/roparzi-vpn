@@ -150,6 +150,8 @@
     var shown = nodes.length;
     document.getElementById("count").textContent = shown + " shown";
     document.getElementById("test-listed").textContent = "Test listed (" + shown + ")";
+    var speedBtn = document.getElementById("sort-speed");
+    speedBtn.setAttribute("aria-pressed", sort.value === "latency" ? "true" : "false");
   }
 
   function render() {
@@ -225,7 +227,12 @@
 
   async function testNames(names) {
     if (!names.length) return;
-    document.getElementById("test-listed").disabled = true;
+    var testBtn = document.getElementById("test-listed");
+    var speedBtn = document.getElementById("sort-speed");
+    testBtn.disabled = true;
+    speedBtn.disabled = true;
+    var previousLabel = speedBtn.textContent;
+    if (sort.value === "latency") speedBtn.textContent = "测速中…";
     try {
       for (var i = 0; i < names.length; i += 12) {
         var chunk = names.slice(i, i + 12);
@@ -239,7 +246,9 @@
     } catch (error) {
       showError(error.message);
     } finally {
-      document.getElementById("test-listed").disabled = false;
+      testBtn.disabled = false;
+      speedBtn.disabled = false;
+      speedBtn.textContent = previousLabel;
       render();
     }
   }
@@ -284,6 +293,14 @@
   });
   document.getElementById("test-listed").addEventListener("click", function () {
     testNames(visibleNodes().map(function (node) { return node.name; }));
+  });
+  document.getElementById("sort-speed").addEventListener("click", function () {
+    sort.value = "latency";
+    renderList();
+    var missing = visibleNodes().filter(function (node) {
+      return !Object.prototype.hasOwnProperty.call(delays, node.name);
+    }).map(function (node) { return node.name; });
+    testNames(missing);
   });
   document.getElementById("copy").addEventListener("click", function () {
     var text = status.endpoint || "127.0.0.1:7890";

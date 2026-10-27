@@ -713,6 +713,20 @@ def chrome_app() -> Path | None:
     return None
 
 
+def vpn_chrome_profile() -> Path:
+    return RUNTIME / "chrome-profile"
+
+
+def close_vpn_chrome() -> None:
+    profile = vpn_chrome_profile()
+    subprocess.run(
+        ["pkill", "-f", "Google Chrome.*--user-data-dir=%s" % profile],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+
+
 def open_chrome() -> dict:
     if chrome_app() is None:
         raise RuntimeError("Google Chrome is not installed. Point any app at 127.0.0.1:%s." % MIXED_PORT)
@@ -722,7 +736,7 @@ def open_chrome() -> dict:
     apply_selection()
     session["connected"] = True
     save_session()
-    profile = RUNTIME / "chrome-profile"
+    profile = vpn_chrome_profile()
     profile.mkdir(parents=True, exist_ok=True)
     subprocess.Popen(
         [
@@ -839,6 +853,7 @@ def connect(name: str) -> dict:
 def disconnect() -> dict:
     session["connected"] = False
     save_session()
+    close_vpn_chrome()
     return state_payload()
 
 

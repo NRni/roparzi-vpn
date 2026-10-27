@@ -231,10 +231,16 @@ code { font-family: var(--mono); font-size: 0.86rem; }
 
 .nodes { padding: 18px; min-height: 70vh; }
 
-.nodes-head, .filters {
+.nodes-head, .filters, .nodes-actions {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+#sort-speed[aria-pressed="true"] {
+  background: var(--signal);
+  color: var(--signal-ink);
+  border-color: transparent;
 }
 
 .nodes-head { justify-content: space-between; }

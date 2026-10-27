@@ -57,14 +57,17 @@
         <div class="account" id="account" hidden></div>
 
         <p class="fine">
-          Use the Chrome window opened from here. A normal browser goes direct, and Google does not answer that way on this network.
+          Use the Chrome window opened from here. Disconnect closes that window, so it stops opening YouTube. A normal browser does not use this VPN.
         </p>
       </section>
 
       <section class="panel nodes" aria-labelledby="nodes-title">
         <div class="nodes-head">
           <h2 id="nodes-title">Nodes</h2>
-          <button class="btn btn-quiet" id="test-listed" type="button">Test listed</button>
+          <div class="nodes-actions">
+            <button class="btn" id="sort-speed" type="button" aria-pressed="false">按速度排列</button>
+            <button class="btn btn-quiet" id="test-listed" type="button">Test listed</button>
+          </div>
         </div>
         <div class="filters">
           <label class="search">
